@@ -19,9 +19,9 @@ public class Main {
 			num = scan.nextInt();
 			switch (num) {
 			case 1:
-				List<Survey01Vo> ls = sd.select();
-				for (Survey01Vo tmp : ls) {
-					System.out.println(tmp);
+				List<SurveyVo> ls = sd.selectAll();
+				for (SurveyVo tmp : ls) {
+					System.out.println(tmp.getNumber() + ". " +tmp.getList());
 				}
 				List<OtherVo> ls2 = od.selectOther();
 				for (OtherVo tmp : ls2) {
@@ -42,8 +42,8 @@ public class Main {
 
 			case 2:
 				
-				List<Survey02Vo> ls3 = sd.selectAll();
-				for (Survey02Vo tmp : ls3) {
+				List<SurveyVo> ls3 = sd.selectAll();
+				for (SurveyVo tmp : ls3) {
 					System.out.println(tmp);
 				}
 				System.out.println();
