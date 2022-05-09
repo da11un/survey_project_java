@@ -33,7 +33,7 @@ public class Main {
 				if (selnum == 0) {
 					System.out.print("입력: ");
 					other = scan.next();
-					sd.insertSurvey(other);
+					od.insertSurvey(other);
 					od.counter(other);
 				}
 				System.out.println("설문 완료!");

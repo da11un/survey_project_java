@@ -100,4 +100,37 @@ public class OtherDao {
 		return 0;
 	}
 
+	// insertSurvey
+	public boolean insertSurvey(String other) {
+		boolean ret = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "insert into \"SURVEY\" values (\"SEQ_SURVEY\".nextval, ?, 0)";
+		try {
+			conn = jdbcTemplate.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, other);
+			pstmt.executeUpdate();
+			ret = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return ret;
+	}
+
 }
