@@ -41,7 +41,6 @@ public class Main {
 				break;
 
 			case 2:
-				
 				List<SurveyVo> ls3 = sd.selectAll();
 				for (SurveyVo tmp : ls3) {
 					System.out.println(tmp);
