@@ -6,6 +6,11 @@ public class SurveyVo {
 	private int vote;
 	
 	
+	public SurveyVo(String list) {
+		super();
+		this.list = list;
+	}
+
 	public SurveyVo(int number, String list, int vote) {
 		super();
 		this.number = number;

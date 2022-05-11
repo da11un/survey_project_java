@@ -14,7 +14,6 @@ public class SurveyDao {
 		jdbcTemplate = JdbcTemplate.getInstance();
 	}
 
-	
 	// selectAll
 	public List<SurveyVo> selectAll() {
 		Connection conn = null;
@@ -144,5 +143,122 @@ public class SurveyDao {
 		return 0;
 	}
 
+	// modifyList
+	public boolean modifyList(String input, String list) {
+		boolean ret = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "update \"SURVEY\" set \"LIST\"=? where \"LIST\"=?";
+
+		try {
+			conn = jdbcTemplate.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setObject(1, input);
+			pstmt.setObject(2, list);
+			pstmt.executeUpdate();
+			ret = true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return ret;
+	}
+
+	// list 전체 목록
+	public ArrayList<SurveyVo> allList() {
+		ArrayList<SurveyVo> list = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select \"LIST\" from \"SURVEY\"";
+
+		try {
+			conn = jdbcTemplate.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				SurveyVo vo = new SurveyVo(rs.getString(1));
+				list.add(vo);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return (list.size() == 0) ? null : list;
+	}
 	
+
+	// 초기화
+	public void init() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		String[] init = new String[] { "delete from \"SURVEY\" where \"NUMBER\" > 5",
+				"update \"SURVEY\" set \"VOTE\" = 0", "drop sequence \"SEQ_SURVEY\"",
+				"create sequence \"SEQ_SURVEY\" start with 6 increment by 1 nocache" };
+
+		try {
+			conn = jdbcTemplate.getConnection();
+			for (int i = 0; i < init.length; i++) {
+				pstmt = conn.prepareStatement(init[i]);
+				pstmt.executeUpdate();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }
