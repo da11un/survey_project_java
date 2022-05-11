@@ -223,16 +223,52 @@ public class SurveyDao {
 		}
 		return (list.size() == 0) ? null : list;
 	}
-	
 
-	// 초기화
+	// insertList
+	public void insertList() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String insertSql[] = new String[] { 
+				"insert into \"SURVEY\" values(\"SEQ_SURVEY\".nextval, '액션', 0)",
+				"insert into \"SURVEY\" values(\"SEQ_SURVEY\".nextval, '멜로', 0)",
+				"insert into \"SURVEY\" values(\"SEQ_SURVEY\".nextval, '코미디', 0)",
+				"insert into \"SURVEY\" values(\"SEQ_SURVEY\".nextval, '공포', 0)",
+				"insert into \"SURVEY\" values(\"SEQ_SURVEY\".nextval, '판타지', 0)", 
+				};
+		try {
+			conn = jdbcTemplate.getConnection();
+			for (int i = 0; i < insertSql.length; i++) {
+				pstmt = conn.prepareStatement(insertSql[i]);
+				pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	// 초기화 init
 	public void init() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
-		String[] init = new String[] { "delete from \"SURVEY\" where \"NUMBER\" > 5",
-				"update \"SURVEY\" set \"VOTE\" = 0", "drop sequence \"SEQ_SURVEY\"",
-				"create sequence \"SEQ_SURVEY\" start with 6 increment by 1 nocache" };
+		String[] init = new String[] { "truncate table \"SURVEY\"", "drop sequence \"SEQ_SURVEY\"",
+				"create sequence \"SEQ_SURVEY\" start with 1 increment by 1 nocache" };
 
 		try {
 			conn = jdbcTemplate.getConnection();
@@ -258,6 +294,7 @@ public class SurveyDao {
 					e.printStackTrace();
 				}
 			}
+			insertList();
 		}
 	}
 
