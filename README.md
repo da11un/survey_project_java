@@ -18,6 +18,7 @@ NUMBER(번호) / LIST (영화 장르) / VOTE (투표 수)
 NUMBER(번호) / INPUT (직접 입력 값)
 
 ### <테이블 만들기>
+```sql
 create table "SURVEY" (  
 "NUMBER" number primary key,  
 "LIST" varchar2(100) not null,  
@@ -28,24 +29,26 @@ create table "OTHER" (
 "LIST_NUMBER" number,  
 "INPUT" varchar2(100)  
 );  
-
+```
 
 ### <SEQUENCE 생성>
+```sql
 create sequence "SEQ_SURVEY" nocache;  
-
+```
 
 ### <값 삽입>
+```sql
 insert into "SURVEY" values ("SEQ_SURVEY".nextval, '액션', 0);  
 insert into "SURVEY" values ("SEQ_SURVEY".nextval, '멜로', 0);  
 insert into "SURVEY" values ("SEQ_SURVEY".nextval, '코미디', 0);  
 insert into "SURVEY" values ("SEQ_SURVEY".nextval, '공포', 0);  
 insert into "SURVEY" values ("SEQ_SURVEY".nextval, '판타지', 0);  
-
+```
 
 ----
 ## Version
 
-<details style="background-color: rgb(252 243 255);">
+<details>
 <summary>Version 1.0</summary>
 <!-- <div markdown="1">  -->
  
@@ -83,17 +86,17 @@ insert into "SURVEY" values ("SEQ_SURVEY".nextval, '판타지', 0);
 int number, String list, int vote
 
 2. SurveyDao  
-selectAll() - number, list, vote 모두 출력하는 메서드  
-counter() - 번호를 매개변수로 설정하여 선택된 번호의 vote 수가 1씩 증가하는 메서드   
-sumVote() - 총 투표수를 출력하는 메서드  
+`selectAll()` - number, list, vote 모두 출력하는 메서드  
+`counter()` - 번호를 매개변수로 설정하여 선택된 번호의 vote 수가 1씩 증가하는 메서드   
+`sumVote()` - 총 투표수를 출력하는 메서드  
 
 3. OtherVo : 기타 선택 시 직접 입력한 값을 따로 처리하기 위한 클래스  
 int number, String input  
 
 4. OtherDao    
-selectOther() - 투표 목록에 '기타' 항목을 따로 추가하기 위한 메서드   
-counter() - 기타 선택 후 직접 입력한 값을 매개변수로 설정하여 그 값의 vote 수가 1 증가하도록 하는 메서드   
-insertSurvey() - '기타' 선택 시 직접 입력한 값이 "SURVEY"테이블에 추가되는 메서드  
+`selectOther()` - 투표 목록에 '기타' 항목을 따로 추가하기 위한 메서드   
+`counter()` - 기타 선택 후 직접 입력한 값을 매개변수로 설정하여 그 값의 vote 수가 1 증가하도록 하는 메서드   
+`insertSurvey()` - '기타' 선택 시 직접 입력한 값이 "SURVEY"테이블에 추가되는 메서드  
  
 5. JdbcTemplate : 오라클 & 자바 연동 클래스  
  
@@ -103,7 +106,7 @@ insertSurvey() - '기타' 선택 시 직접 입력한 값이 "SURVEY"테이블�
 </details>
 
  
- <details style="background-color: rgb(252 243 255);">
+ <details>
 <summary>Version 2.0</summary>
 <!-- <div markdown="1">  -->
   
@@ -161,20 +164,20 @@ insertSurvey() - '기타' 선택 시 직접 입력한 값이 "SURVEY"테이블�
 int number, String list, int vote
 
 2. SurveyDao  
-selectAll() - number, list, vote 모두 출력하는 메서드  
-counter() - 번호를 매개변수로 설정하여 선택된 번호의 vote 수가 1씩 증가하는 메서드  
-sumVote() - 총 투표수를 출력하는 메서드  
-modifyList() - 선택한 항목 이름을 입력한 값으로 수정하는 메서드  
-allList() - 항목 이름(list)에 대한 목록만 반환하는 메서드 (modifyList 실행할 때 필요)  
-init() - 초기화 메서드
+`selectAll()` - number, list, vote 모두 출력하는 메서드  
+`counter()` - 번호를 매개변수로 설정하여 선택된 번호의 vote 수가 1씩 증가하는 메서드  
+`sumVote()` - 총 투표수를 출력하는 메서드  
+`modifyList()` - 선택한 항목 이름을 입력한 값으로 수정하는 메서드  
+`allList()` - 항목 이름(list)에 대한 목록만 반환하는 메서드 (modifyList 실행할 때 필요)  
+`init()` - 초기화 메서드
   
 3. OtherVo : 기타 선택 시 직접 입력한 값을 따로 처리하기 위한 클래스  
 int number, String input
 
 4. OtherDao  
-selectOther() - 투표 목록에 '0. 기타' 항목을 따로 추가하기 위한 메서드  
-counter() - '기타' 선택 후 직접 입력한 값을 매개변수로 설정하여 그 값의 vote 수가 1 증가하도록 하는 메서드  
-insertSurvey() - '기타' 선택 후 직접 입력한 값이 "SURVEY"테이블에 추가되는 메서드  
+`selectOther()` - 투표 목록에 '0. 기타' 항목을 따로 추가하기 위한 메서드  
+`counter()` - '기타' 선택 후 직접 입력한 값을 매개변수로 설정하여 그 값의 vote 수가 1 증가하도록 하는 메서드  
+`insertSurvey()` - '기타' 선택 후 직접 입력한 값이 "SURVEY"테이블에 추가되는 메서드  
   
 5. JdbcTemplate : 오라클 & 자바 연동 클래스  
  
